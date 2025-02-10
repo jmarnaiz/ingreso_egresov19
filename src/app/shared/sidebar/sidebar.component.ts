@@ -4,8 +4,8 @@ import { Component } from '@angular/core';
   selector: 'app-sidebar',
   standalone: false,
   templateUrl: './sidebar.component.html',
-  styles: ``
+  styles: ``,
 })
 export class SidebarComponent {
-
+  logout(): void {}
 }
