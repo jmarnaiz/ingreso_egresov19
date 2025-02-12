@@ -42,21 +42,12 @@
             <div class="form-group">
               <button
                 type="submit"
-                [disabled]="loginForm.invalid"
+                [disabled]="isLoading || loginForm.invalid"
                 class="btn btn-primary submit-btn btn-block"
-                *ngIf="!isLoading"
               >
-                Login
-              </button>
+                <i *ngIf="isLoading" class="fa fa-spin fa-sync"></i>
 
-              <button
-                type="button"
-                [disabled]="true"
-                class="btn btn-primary submit-btn btn-block"
-                *ngIf="isLoading"
-              >
-                <i class="fa fa-spin fa-sync"></i>
-                Wait...
+                {{ isLoading ? "Wait..." : "Login " }}
               </button>
             </div>
 
