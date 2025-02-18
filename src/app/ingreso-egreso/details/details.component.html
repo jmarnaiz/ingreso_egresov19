@@ -15,11 +15,34 @@
           </thead>
 
           <tbody>
-            <tr>
-              <td>Descripción</td>
-              <td>cantidad</td>
-              <td>Tipo</td>
-              <td>acciones</td>
+            <tr
+              *ngFor="
+                let ingresoEgreso of ingresosEgresos | orderIngresosEgresos
+              "
+            >
+              <td>{{ ingresoEgreso.description }}</td>
+              <td>{{ ingresoEgreso.amount | currency : "EUR" }}</td>
+              <td
+                [class.text-warning]="
+                  ingresoEgreso.type === ingresoEgresoType.EGRESO
+                "
+                [class.text-primary]="
+                  ingresoEgreso.type === ingresoEgresoType.INGRESO
+                "
+              >
+                {{ ingresoEgresoType[ingresoEgreso.type] | titlecase }}
+              </td>
+              <td>
+                <button
+                  type="button"
+                  class="btn btn-danger"
+                  title="delete_action"
+                  (click)="delete(ingresoEgreso.uid)"
+                >
+                  <i class="fa fa-trash"></i>
+                  Borrar
+                </button>
+              </td>
             </tr>
           </tbody>
         </table>

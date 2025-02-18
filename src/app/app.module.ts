@@ -1,7 +1,6 @@
+// Modules
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-// Modules
 import { AppRoutingModule } from './app-routing.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
@@ -28,6 +27,13 @@ import { StoreModule } from '@ngrx/store';
 import { appReducers } from './app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+// Pipes
+import { OrderIngresosEgresosPipe } from './pipes/order-ingresos-egresos.pipe';
+
+// Graphics
+import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
+import { GraphicComponent } from './ingreso-egreso/statistics/graphic/graphic.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -40,6 +46,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     FooterComponent,
     NavbarComponent,
     SidebarComponent,
+    OrderIngresosEgresosPipe,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +55,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     ReactiveFormsModule,
     StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    GraphicComponent,
   ],
   providers: [
     provideFirebaseApp(() =>
@@ -63,6 +71,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     ),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
+    provideCharts(withDefaultRegisterables()),
   ],
   bootstrap: [AppComponent],
 })

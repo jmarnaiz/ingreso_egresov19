@@ -5,7 +5,7 @@ export interface UserDTO {
 }
 
 export const EMPTY_USER: UserDTO = {
-  uid: '0',
+  uid: '',
   name: '',
   email: '',
 };

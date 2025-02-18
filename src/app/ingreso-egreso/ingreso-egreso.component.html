@@ -5,15 +5,22 @@
         <h4 class="card-title">Agregar Ingreso / Egreso</h4>
         <p class="card-description">Especifique la cantidad y el tipo</p>
 
-        <form>
+        <form [formGroup]="ingresoEgresoForm" (ngSubmit)="save()">
           <div class="form-group">
             <label>Descripción</label>
             <input
               type="text"
               class="form-control"
               placeholder="Descripción"
-              name="descripcion"
+              formControlName="description"
+              name="description"
             />
+            <p
+              *ngIf="form['description'].hasError('minlength')"
+              class="invalid-feedback d-block"
+            >
+              Mínimo 5 caracteres
+            </p>
           </div>
 
           <div class="form-group">
@@ -22,23 +29,48 @@
               type="number"
               class="form-control"
               placeholder="Cantidad"
+              formControlName="amount"
               name="amount"
             />
-            <p>Debe de ser una cantidad positiva</p>
+            <p
+              *ngIf="form['amount'].hasError('min')"
+              class="invalid-feedback d-block"
+            >
+              Debe de ser una cantidad positiva
+            </p>
           </div>
 
           <div class="form-group">
             <label>Tipo</label>
             <br />
-            <button type="button" class="btn btn-primary btn-block">
-              Ingreso
+            <button
+              type="button"
+              class="btn btn-block"
+              (click)="
+                type === ingresoEgresoType.EGRESO
+                  ? (type = ingresoEgresoType.INGRESO)
+                  : (type = ingresoEgresoType.EGRESO)
+              "
+              [ngClass]="
+                type === ingresoEgresoType.EGRESO
+                  ? 'btn-warning'
+                  : 'btn-primary'
+              "
+            >
+              {{ ingresoEgresoType[type] | titlecase }}
             </button>
-            <!-- <button type="button" class="btn btn-warning btn-block">Egreso</button> -->
           </div>
 
           <hr />
-          <button type="button" class="btn btn-success me-2">
-            <i class="fa fa-save"></i>
+          <button
+            type="submit"
+            class="btn btn-success me-2"
+            [disabled]="isLoading || ingresoEgresoForm.invalid"
+          >
+            <i
+              class="fa"
+              [ngClass]="isLoading ? 'fa-spin fa-sync' : 'fa-save'"
+            ></i>
             Agregar
           </button>
 
