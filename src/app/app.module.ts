@@ -1,21 +1,14 @@
-// Modules
+// Angular Modules
 import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+// App Modules
+import { AuthModule } from './auth/auth.module';
 
 // Components
 import { AppComponent } from './app.component';
-import { LoginComponent } from './auth/login/login.component';
-import { RegisterComponent } from './auth/register/register.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { IngresoEgresoComponent } from './ingreso-egreso/ingreso-egreso.component';
-import { StatisticsComponent } from './ingreso-egreso/statistics/statistics.component';
-import { DetailsComponent } from './ingreso-egreso/details/details.component';
-import { FooterComponent } from './shared/footer/footer.component';
-import { NavbarComponent } from './shared/navbar/navbar.component';
-import { SidebarComponent } from './shared/sidebar/sidebar.component';
 
 // Firebase
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
@@ -27,35 +20,15 @@ import { StoreModule } from '@ngrx/store';
 import { appReducers } from './app.reducer';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-// Pipes
-import { OrderIngresosEgresosPipe } from './pipes/order-ingresos-egresos.pipe';
-
-// Graphics
-import { provideCharts, withDefaultRegisterables } from 'ng2-charts';
-import { GraphicComponent } from './ingreso-egreso/statistics/graphic/graphic.component';
-
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    RegisterComponent,
-    DashboardComponent,
-    IngresoEgresoComponent,
-    StatisticsComponent,
-    DetailsComponent,
-    FooterComponent,
-    NavbarComponent,
-    SidebarComponent,
-    OrderIngresosEgresosPipe,
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
+    AuthModule,
     AppRoutingModule,
     FontAwesomeModule,
-    ReactiveFormsModule,
     StoreModule.forRoot(appReducers),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
-    GraphicComponent,
   ],
   providers: [
     provideFirebaseApp(() =>
@@ -71,7 +44,6 @@ import { GraphicComponent } from './ingreso-egreso/statistics/graphic/graphic.co
     ),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideCharts(withDefaultRegisterables()),
   ],
   bootstrap: [AppComponent],
 })

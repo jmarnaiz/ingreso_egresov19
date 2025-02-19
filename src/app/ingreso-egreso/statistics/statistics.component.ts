@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../app.reducer';
+import { AppStateWithExpenses } from '../ingreso-egreso.reducer';
 import { Subscription } from 'rxjs';
 import { IngresoEgresoType } from '../../models/ingreso-egreso.model';
 
@@ -17,7 +17,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   public totalIngresos: number;
   private _subscriptions: Subscription[];
 
-  constructor(private _store: Store<AppState>) {
+  constructor(private _store: Store<AppStateWithExpenses>) {
     this.ingresos = this.egresos = this.totalEgresos = this.totalIngresos = 0;
     this._subscriptions = [];
   }

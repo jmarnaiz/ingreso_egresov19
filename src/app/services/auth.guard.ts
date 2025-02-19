@@ -1,24 +1,21 @@
-import { Injectable } from '@angular/core';
-import { CanActivate, Router } from '@angular/router';
-import { Observable, tap } from 'rxjs';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { Observable, take, tap } from 'rxjs';
 import { AuthService } from './auth.service';
 
-@Injectable({
-  providedIn: 'root',
-})
-export class AuthGuard implements CanActivate {
-  constructor(private _authService: AuthService, private _router: Router) {}
-
-  canActivate(): Observable<boolean> {
-    return this._authService.isAuthenticated().pipe(
-      tap((state) => {
-        // Redirect user if not authenticated
-        if (!state) {
-          this._router.navigateByUrl('login');
-        }
-      })
-    );
-  }
-}
+export const isAuthenticated = (): Observable<boolean> => {
+  const router = inject(Router);
+  const authService = inject(AuthService);
+  return authService.isAuthenticated().pipe(
+    tap((state) => {
+      // Redirect user if not authenticated
+      if (!state) {
+        router.navigateByUrl('login');
+      }
+    }),
+    take(1)
+  );
+};
 
 // Tap dispara un efecto secundario
+// take solo toma un valor del observable y luego cancela la suscripción
